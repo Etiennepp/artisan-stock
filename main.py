@@ -1,6 +1,4 @@
-import urllib.request
 import time
-import re
 from plyer import notification
 import products
 import params
