@@ -11,7 +11,6 @@ size = "L"
 regex = f"<li type=\"text\" name=\"size\"[\s\w\=\";#:\(\),]*>{size}</li>"
 
 def notify(text):
-	
 	try:
 		notification.notify(
 			title = 'NJ FX Shindekai V2',
