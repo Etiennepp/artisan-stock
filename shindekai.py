@@ -5,7 +5,7 @@ from plyer import notification
 
 
 url = "https://www.artisan-jp.com/fx-shidenkai-eng.html"
-check_interval = 1 * 1
+check_interval = 60 * 5
 size = "L"
 
 regex = f"<li type=\"text\" name=\"size\"[\s\w\=\";#:\(\),]*>{size}</li>"
