@@ -20,10 +20,6 @@ info = [
 				"name": "M",
 				"code": "2"
 			},
-			{	 
-				"name": "L",
-				"code": "3"
-			}
 		],
 		"hardness": [
 			{
