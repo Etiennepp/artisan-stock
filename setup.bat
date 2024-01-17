@@ -5,12 +5,14 @@ call:construct
 setlocal
 cd /d %~dp0
 
-for /f "delims=" %%a in ('python #.py ^| findstr "3"') do set "$py=3"
-goto:%$py%
+python --version 3>NUL
+if errorlevel 1 goto errorNoPython
 
-echo Python 3 is not installed or python's path is not in the %%$path%% env. var
-
-:3
 pip install -r requirements.txt
 python test.py
+pause
+goto:eof
+
+:errorNoPython
+echo Error^: Python not installed
 pause
