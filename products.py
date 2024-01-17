@@ -25,5 +25,11 @@ info = [
 				"code": "3"
 			}
 		],
+		"hardness": [
+			{
+				"name": "MID",
+				"code": "192"
+			}
+		]
 	}
 ]

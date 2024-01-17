@@ -4,24 +4,10 @@ import products
 import params
 import requests
 
-url = "https://www.artisan-jp.com/get_syouhin.php"
-
-
-def notifyProductAvailable(name, size, color):
-	try:
-		notification.notify(
-			title = name,
-			message = f"[{color['name']} - {size['name']}] IN STOCK",
-			app_icon = None,
-			timeout = 10,
-		)
-	except:
-		return None
-
-def isProductAvailable(size_code, color_code):
+def isProductAvailable(size_code, color_code, hardness_code):
 	data = {
 		"kuni": "on",
-		"sir": "192",
+		"sir": hardness_code,
 		"size": size_code,
 		"color": color_code,
 	}
@@ -36,24 +22,35 @@ def isProductAvailable(size_code, color_code):
 		print(error)
 		return None
 	
-def printStatus(size, color, status):
-	print(f"{time.strftime('%Y-%m-%d %H:%M')} | {color['name']} - {size['name']} | {status}")
+def printStatus(size, color, hardness, status):
+	print(f"{time.strftime('%Y-%m-%d %H:%M')} | {color['name']} - {size['name']} - {hardness['name']} | {status}")
 
+def notifyProductAvailable(name, size, color, hardness):
+	try:
+		notification.notify(
+			title = name,
+			message = f"[{color['name']} - {size['name']} - {hardness['name']}] IN STOCK",
+			app_icon = None,
+			timeout = 60,
+		)
+	except:
+		return None
 
 while True:
 	for product in products.info:
 		print(f"[{product['name']}]")
 		for size in product["sizes"]:
 			for color in product["colors"]:
-				isAvailable = isProductAvailable(size["code"], color["code"])
-				if (isAvailable is None):
-					printStatus(size, color, 'Unable to check availability')
-					continue
-				if (isAvailable):
-					printStatus(size, color, 'In stock')
-					notifyProductAvailable(product["name"], size, color)
-				else: 
-					printStatus(size, color, 'Out of stock')
+				for hardness in product["hardness"]:
+					isAvailable = isProductAvailable(size["code"], color["code"], hardness["code"])
+					if (isAvailable is None):
+						printStatus(size, color, hardness, 'Unable to check availability')
+						continue
+					if (isAvailable):
+						printStatus(size, color, hardness, 'In stock')
+						notifyProductAvailable(product["name"], size, color, hardness)
+					else: 
+						printStatus(size, color, hardness, 'Out of stock')
 	time.sleep(params.check_interval)
     
 
